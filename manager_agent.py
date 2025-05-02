@@ -1,23 +1,22 @@
+print("Starting ManagerAgent script...")
 from agents import PlannerAgent, CriticAgent, EpidemiologistAgent, DataAnalystAgent, ExecutorAgent, OutreachAgent
-
+print("Initializing ManagerAgent...")
+manager = ManagerAgent()
 class ManagerAgent:
-    def __init__(self):
-        self.planner = PlannerAgent()
-        self.critic = CriticAgent()
-        self.epidemiologist = EpidemiologistAgent()
-        self.data_analyst = DataAnalystAgent()
-        self.executor = ExecutorAgent()
-        self.outreach = OutreachAgent()
+    def initiate_workflow(self, workflow_name):
+        print(f"Workflow '{workflow_name}' started.")
 
-    def initiate_workflow(self, goal):
-        # Step 1: Planning
-        plan = self.planner.create_plan(goal)
-        refined_plan = self.critic.review_plan(plan)
-        
-        # Step 2: Patient Cohort Selection
-        criteria = self.epidemiologist.define_criteria()
-        query_code = self.data_analyst.write_query(criteria)
-        patient_list = self.executor.run_query(query_code)
+        # Step 1: Create a plan
+        plan = self.planner_agent.create_plan(workflow_name)
+        print(f"Plan generated: {plan}")
+
+        # Step 2: Fetch patient list
+        patient_list = self.executor_agent.run_query(plan['query_code'])
+        print(f"Patient list fetched: {patient_list}")
+
+        # Step 3: Send outreach emails
+        self.outreach_agent.send_emails(patient_list)
+        print("Emails have been sent.")
         
         # Step 3: Outreach
         self.outreach.send_emails(patient_list)
