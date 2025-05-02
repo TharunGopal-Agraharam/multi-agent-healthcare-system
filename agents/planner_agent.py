@@ -1,9 +1,10 @@
 class PlannerAgent:
     def create_plan(self, goal):
-        # Break down high-level goal into steps
+        print(f"Creating plan for goal: {goal}")
+        # Example plan
         plan = {
-            "step1": "Define patient cohort criteria",
-            "step2": "Fetch patient data from FHIR API",
-            "step3": "Send outreach emails"
+            "query_code": "QUERY_CODE_FOR_PATIENTS",
+            "description": "Outreach for colonoscopy screenings"
         }
+        print(f"Plan created: {plan}")
         return plan
