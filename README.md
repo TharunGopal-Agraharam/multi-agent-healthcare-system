@@ -34,7 +34,6 @@ manager = ManagerAgent()
 manager.initiate_workflow("Send outreach emails for colonoscopy screenings")
 ```
 
-# Multi-Agent Healthcare System
 
 ## **Overview**
 The Multi-Agent Healthcare System is a modular and intelligent framework designed to automate healthcare workflows. It employs multiple specialized agents that collaborate to achieve specific goals, such as sending outreach emails for patient health screenings. This project demonstrates how multi-agent systems can streamline healthcare operations by automating repetitive and time-consuming tasks.
