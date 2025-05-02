@@ -80,6 +80,9 @@ The project consists of the following agents:
 
 ---
 
+![image](https://github.com/user-attachments/assets/16d716f1-be94-42d5-84a2-227b5ca3812b)
+
+
 ## **Email Content**
 The email sent to patients contains the following details:
 
