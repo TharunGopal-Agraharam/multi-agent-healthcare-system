@@ -35,6 +35,8 @@ manager.initiate_workflow("Send outreach emails for colonoscopy screenings")
 ```
 
 
+# Multi-Agent Healthcare System
+
 ## **Overview**
 The Multi-Agent Healthcare System is a modular and intelligent framework designed to automate healthcare workflows. It employs multiple specialized agents that collaborate to achieve specific goals, such as sending outreach emails for patient health screenings. This project demonstrates how multi-agent systems can streamline healthcare operations by automating repetitive and time-consuming tasks.
 
@@ -75,6 +77,27 @@ The project consists of the following agents:
 ### **4. OutreachAgent**
 - Uses the data fetched by the `ExecutorAgent` to perform the required actions.
 - Sends emails to patients and logs the details.
+
+---
+
+## **Email Content**
+The email sent to patients contains the following details:
+
+- **Subject**: Outreach for Colonoscopy Screenings
+- **Body**:
+  ```
+  Dear [Patient's Name],
+
+  We hope this message finds you well. As part of our healthcare initiative, we are reaching out to encourage you to schedule a colonoscopy screening. Regular screenings are vital for early detection and prevention of colorectal issues.
+
+  Please contact us or visit our website to learn more and schedule your appointment.
+
+  Best regards,  
+  [Your Healthcare Team Name]  
+  [Contact Information]  
+  ```
+
+This email is dynamically personalized for each patient using their name and other relevant details.
 
 ---
 
@@ -162,11 +185,30 @@ The `OutreachAgent` sends emails to the patients in the list.
 class OutreachAgent:
     def send_emails(self, patient_list):
         """
-        Sends emails to the provided list of patients.
+        Sends personalized emails to the provided list of patients.
         """
         print(f"Sending emails to patients: {patient_list}")
+        
         for patient in patient_list:
+            # Construct the email content
+            subject = "Important: Schedule Your Colonoscopy Screening"
+            body = f"""
+            Dear {patient['name']},
+
+            We hope this message finds you well. As part of our healthcare initiative, we are reaching out to encourage you 
+            to schedule a colonoscopy screening. Regular screenings are vital for early detection and prevention of 
+            colorectal issues.
+
+            Please contact us or visit our website to learn more and schedule your appointment.
+
+            Best regards,
+            Your Healthcare Team
+            """
+            
+            # Log the email being sent
             print(f"Sending email to {patient['name']} at {patient['email']}")
+            print(f"Subject: {subject}")
+            print(f"Body: {body}")
 ```
 
 ---
@@ -192,7 +234,31 @@ Query result: [{'name': 'John Doe', 'email': 'john@example.com'}, {'name': 'Jane
 Patient list fetched: [{'name': 'John Doe', 'email': 'john@example.com'}, {'name': 'Jane Smith', 'email': 'jane@example.com'}]
 Sending emails to patients: [{'name': 'John Doe', 'email': 'john@example.com'}, {'name': 'Jane Smith', 'email': 'jane@example.com'}]
 Sending email to John Doe at john@example.com
+Subject: Important: Schedule Your Colonoscopy Screening
+Body:
+    Dear John Doe,
+
+    We hope this message finds you well. As part of our healthcare initiative, we are reaching out to encourage you 
+    to schedule a colonoscopy screening. Regular screenings are vital for early detection and prevention of 
+    colorectal issues.
+
+    Please contact us or visit our website to learn more and schedule your appointment.
+
+    Best regards,
+    Your Healthcare Team
 Sending email to Jane Smith at jane@example.com
+Subject: Important: Schedule Your Colonoscopy Screening
+Body:
+    Dear Jane Smith,
+
+    We hope this message finds you well. As part of our healthcare initiative, we are reaching out to encourage you 
+    to schedule a colonoscopy screening. Regular screenings are vital for early detection and prevention of 
+    colorectal issues.
+
+    Please contact us or visit our website to learn more and schedule your appointment.
+
+    Best regards,
+    Your Healthcare Team
 Emails have been sent.
 ```
 
