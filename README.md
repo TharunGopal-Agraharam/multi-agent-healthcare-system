@@ -34,5 +34,193 @@ manager = ManagerAgent()
 manager.initiate_workflow("Send outreach emails for colonoscopy screenings")
 ```
 
-## License
-This project is licensed under the MIT License.
+# Multi-Agent Healthcare System
+
+## **Overview**
+The Multi-Agent Healthcare System is a modular and intelligent framework designed to automate healthcare workflows. It employs multiple specialized agents that collaborate to achieve specific goals, such as sending outreach emails for patient health screenings. This project demonstrates how multi-agent systems can streamline healthcare operations by automating repetitive and time-consuming tasks.
+
+---
+
+## **Key Features**
+- Modular architecture with distinct responsibilities for each agent.
+- Seamless coordination between planning, data retrieval, and communication.
+- Fully automated workflow execution with clear debugging and logging outputs.
+- Scalable design to accommodate additional workflows and agents.
+
+---
+
+## **Workflow**
+The system follows a well-defined workflow to achieve its goals:
+1. **Goal Definition**: The user specifies a goal (e.g., "Send outreach emails for colonoscopy screenings").
+2. **Plan Generation**: The `PlannerAgent` creates a structured plan with a `query_code` and `description`.
+3. **Data Retrieval**: The `ExecutorAgent` fetches the required data (e.g., a patient list) using the `query_code`.
+4. **Action Execution**: The `OutreachAgent` performs the required actions (e.g., sending emails) based on the retrieved data.
+
+---
+
+## **Architecture**
+The project consists of the following agents:
+
+### **1. ManagerAgent**
+- The central coordinator responsible for orchestrating the workflow.
+- Initializes other agents and ensures smooth execution of the workflow.
+
+### **2. PlannerAgent**
+- Generates a structured plan to achieve the specified goal.
+- Outputs a `query_code` and a `description` for the goal.
+
+### **3. ExecutorAgent**
+- Executes the `query_code` from the plan to fetch the required data.
+- Returns structured data (e.g., a list of patients with names and email addresses).
+
+### **4. OutreachAgent**
+- Uses the data fetched by the `ExecutorAgent` to perform the required actions.
+- Sends emails to patients and logs the details.
+
+---
+
+## **Code Explanation**
+
+### **ManagerAgent**
+The `ManagerAgent` coordinates the workflow by invoking the appropriate methods in other agents.
+
+```python name=manager_agent.py
+class ManagerAgent:
+    def __init__(self):
+        self.planner_agent = PlannerAgent()
+        self.executor_agent = ExecutorAgent()
+        self.outreach_agent = OutreachAgent()
+
+    def initiate_workflow(self, workflow_name):
+        print(f"Workflow '{workflow_name}' started.")
+
+        # Step 1: Create a plan
+        plan = self.planner_agent.create_plan(workflow_name)
+        print(f"Plan generated: {plan}")
+
+        # Step 2: Fetch patient list
+        patient_list = self.executor_agent.run_query(plan['query_code'])
+        print(f"Patient list fetched: {patient_list}")
+
+        # Step 3: Perform outreach
+        self.outreach_agent.send_emails(patient_list)
+        print("Emails have been sent.")
+```
+
+---
+
+### **PlannerAgent**
+The `PlannerAgent` generates a structured plan for the specified goal.
+
+```python name=planner_agent.py
+class PlannerAgent:
+    def create_plan(self, goal):
+        """
+        Generates a plan to achieve the specified goal.
+
+        Example Plan:
+        {
+            "query_code": "QUERY_CODE_FOR_PATIENTS",
+            "description": "Outreach for colonoscopy screenings"
+        }
+        """
+        print(f"Creating plan for goal: {goal}")
+        plan = {
+            "query_code": "QUERY_CODE_FOR_PATIENTS",
+            "description": "Outreach for colonoscopy screenings"
+        }
+        print(f"Plan created: {plan}")
+        return plan
+```
+
+---
+
+### **ExecutorAgent**
+The `ExecutorAgent` fetches the required data based on the `query_code`.
+
+```python name=executor_agent.py
+class ExecutorAgent:
+    def run_query(self, query_code):
+        """
+        Executes the query code to fetch the required data.
+        Returns a list of patients.
+        """
+        print(f"Running query with code: {query_code}")
+        patient_list = [
+            {"name": "John Doe", "email": "john@example.com"},
+            {"name": "Jane Smith", "email": "jane@example.com"}
+        ]
+        print(f"Query result: {patient_list}")
+        return patient_list
+```
+
+---
+
+### **OutreachAgent**
+The `OutreachAgent` sends emails to the patients in the list.
+
+```python name=outreach_agent.py
+class OutreachAgent:
+    def send_emails(self, patient_list):
+        """
+        Sends emails to the provided list of patients.
+        """
+        print(f"Sending emails to patients: {patient_list}")
+        for patient in patient_list:
+            print(f"Sending email to {patient['name']} at {patient['email']}")
+```
+
+---
+
+## **Sample Execution**
+### **Command**
+```bash
+python manager_agent.py
+```
+
+### **Output**
+```plaintext
+Starting ManagerAgent script...
+Initializing ManagerAgent...
+Initializing agents...
+Initiating workflow...
+Workflow 'Send outreach emails for colonoscopy screenings' started.
+Creating plan for goal: Send outreach emails for colonoscopy screenings
+Plan created: {'query_code': 'QUERY_CODE_FOR_PATIENTS', 'description': 'Outreach for colonoscopy screenings'}
+Plan generated: {'query_code': 'QUERY_CODE_FOR_PATIENTS', 'description': 'Outreach for colonoscopy screenings'}
+Running query with code: QUERY_CODE_FOR_PATIENTS
+Query result: [{'name': 'John Doe', 'email': 'john@example.com'}, {'name': 'Jane Smith', 'email': 'jane@example.com'}]
+Patient list fetched: [{'name': 'John Doe', 'email': 'john@example.com'}, {'name': 'Jane Smith', 'email': 'jane@example.com'}]
+Sending emails to patients: [{'name': 'John Doe', 'email': 'john@example.com'}, {'name': 'Jane Smith', 'email': 'jane@example.com'}]
+Sending email to John Doe at john@example.com
+Sending email to Jane Smith at jane@example.com
+Emails have been sent.
+```
+
+---
+
+## **Future Enhancements**
+1. **Integration with Real APIs**:
+   - Replace the mock patient list with real data from healthcare APIs like FHIR.
+
+2. **Email Service Integration**:
+   - Use an email delivery service (e.g., SMTP, SendGrid) to send real emails.
+
+3. **Error Handling**:
+   - Add robust error-handling mechanisms for network issues, invalid data, etc.
+
+4. **Logging**:
+   - Implement a logging system to save outputs and errors to a file for better traceability.
+
+5. **Additional Workflows**:
+   - Enhance the system to include workflows for appointment scheduling, reminders, and follow-ups.
+
+---
+
+## **License**
+This project is open-source and available under the [MIT License](LICENSE).
+
+---
+
+## **Contributors**
+- **Tharun Gopal Agraharam** (Project Creator)
